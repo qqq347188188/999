@@ -52,7 +52,7 @@ EOF
   IPA=$(find "$ROOT/build" -name "*.ipa" | head -n1)
 else
   echo "==> Ad-hoc 签名（TrollStore 可装）"
-  codesign -s - --entitlements wb-checkin-ios.entitlements "$APP"
+  codesign --force -s - --entitlements wb-checkin-ios.entitlements "$APP"
   mkdir -p Payload
   cp -R "$APP" Payload/
   zip -qry wb-checkin-ios.ipa Payload
