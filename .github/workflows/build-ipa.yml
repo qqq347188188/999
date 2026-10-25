@@ -1,0 +1,46 @@
+name: Build TrollStore IPA
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 xcodegen
+        run: brew install xcodegen
+
+      - name: 生成 Xcode 工程
+        run: xcodegen generate
+
+      - name: 构建（关闭签名，仅 arm64）
+        run: |
+          xcodebuild -project wb-checkin-ios.xcodeproj -scheme wb-checkin-ios \
+            -configuration Release -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGN_IDENTITY="" ARCHS=arm64 \
+            build CONFIGURATION_BUILD_DIR=$PWD/build/app
+
+      - name: Ad-hoc 签名（TrollStore 可安装）
+        run: |
+          codesign -s - --entitlements wb-checkin-ios.entitlements \
+            build/app/wb-checkin-ios.app
+
+      - name: 打包为 IPA
+        run: |
+          mkdir -p Payload
+          cp -r build/app/wb-checkin-ios.app Payload/
+          zip -qry wb-checkin-ios.ipa Payload
+          rm -rf Payload
+
+      - name: 上传构件
+        uses: actions/upload-artifact@v4
+        with:
+          name: wb-checkin-ios-trollstore
+          path: wb-checkin-ios.ipa
