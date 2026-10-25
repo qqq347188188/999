@@ -2,8 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <!-- TrollStore / 越狱环境：开启调试与任务允许，方便后台保活与排错 -->
-    <key>get-task-allow</key>
-    <true/>
+	<key>get-task-allow</key>
+	<true/>
 </dict>
 </plist>
