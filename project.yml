@@ -1,0 +1,24 @@
+name: wb-checkin-ios
+options:
+  bundleIdPrefix: com.wbcheckin
+  deploymentTarget:
+    iOS: "16.0"
+  createIntermediateGroups: true
+targets:
+  wb-checkin-ios:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: Sources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.wbcheckin.app
+        PRODUCT_NAME: wb-checkin-ios
+        INFOPLIST_FILE: Info.plist
+        CODE_SIGN_ENTITLEMENTS: wb-checkin-ios.entitlements
+        SWIFT_VERSION: "5.9"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_GENERATE_ASSET_SYMBOLS: "NO"
+        ENABLE_BITCODE: "NO"
+        ONLY_ACTIVE_ARCH: "NO"
